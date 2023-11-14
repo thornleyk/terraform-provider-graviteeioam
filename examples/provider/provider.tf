@@ -1,3 +1,3 @@
-provider "graviteeio-am" {
+provider "graviteeioam" {
   # example configuration here
 }
