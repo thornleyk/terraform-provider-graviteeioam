@@ -13,7 +13,7 @@ description: |-
 ## Example Usage
 
 ```terraform
-provider "graviteeio-am" {
+provider "graviteeioam" {
   # example configuration here
 }
 ```
