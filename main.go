@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"github.com/thornleyk/terraform-provider-graviteeioam/internal/provider"
+	"github.com/thornleyk/terraform-provider-graviteeio-am/internal/provider"
 )
 
 // Run "go generate" to format example terraform files and generate the docs for the registry/website
@@ -39,7 +39,7 @@ func main() {
 
 	opts := providerserver.ServeOpts{
 		// TODO: Update this string with the published name of your provider.
-		Address: "registry.terraform.io/thornleyk/graviteeioam",
+		Address: "registry.terraform.io/thornleyk/graviteeio-am",
 		Debug:   debug,
 	}
 

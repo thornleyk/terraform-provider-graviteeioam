@@ -1,3 +1,3 @@
-resource "graviteeioam_domain" "example" {
+resource "graviteeio-am_domain" "example" {
   configurable_attribute = "some-value"
 }

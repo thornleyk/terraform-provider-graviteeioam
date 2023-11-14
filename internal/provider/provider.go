@@ -33,7 +33,7 @@ type GraviteeIOAMProviderModel struct {
 }
 
 func (p *GraviteeIOAMProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "graviteeioam"
+	resp.TypeName = "graviteeio-am"
 	resp.Version = p.version
 }
 

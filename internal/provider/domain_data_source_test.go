@@ -18,7 +18,7 @@ func TestAccDomainDataSource(t *testing.T) {
 			{
 				Config: testAccDomainDataSourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.graviteeioam_domain.test", "id", "example-id"),
+					resource.TestCheckResourceAttr("data.graviteeio-am_domain.test", "id", "example-id"),
 				),
 			},
 		},
@@ -26,7 +26,7 @@ func TestAccDomainDataSource(t *testing.T) {
 }
 
 const testAccDomainDataSourceConfig = `
-data "graviteeioam_domain" "test" {
+data "graviteeio-am_domain" "test" {
   configurable_attribute = "example"
 }
 `

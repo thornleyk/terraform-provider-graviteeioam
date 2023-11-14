@@ -1,3 +1,3 @@
-data "graviteeioam_domain" "example" {
+data "graviteeio-am_domain" "example" {
   configurable_attribute = "some-value"
 }

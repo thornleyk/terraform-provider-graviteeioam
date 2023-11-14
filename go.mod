@@ -1,4 +1,4 @@
-module github.com/thornleyk/terraform-provider-graviteeioam
+module github.com/thornleyk/terraform-provider-graviteeio-am
 
 go 1.19
 
