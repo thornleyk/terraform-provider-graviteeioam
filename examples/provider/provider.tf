@@ -1,3 +1,3 @@
-provider "scaffolding" {
+provider "graviteeio_am" {
   # example configuration here
 }

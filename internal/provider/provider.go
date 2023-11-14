@@ -15,10 +15,10 @@ import (
 )
 
 // Ensure ScaffoldingProvider satisfies various provider interfaces.
-var _ provider.Provider = &ScaffoldingProvider{}
+var _ provider.Provider = &GraviteeIOAMProvider{}
 
 // ScaffoldingProvider defines the provider implementation.
-type ScaffoldingProvider struct {
+type GraviteeIOAMProvider struct {
 	// version is set to the provider version on release, "dev" when the
 	// provider is built and ran locally, and "test" when running acceptance
 	// testing.
@@ -26,28 +26,38 @@ type ScaffoldingProvider struct {
 }
 
 // ScaffoldingProviderModel describes the provider data model.
-type ScaffoldingProviderModel struct {
+type GraviteeIOAMProviderModel struct {
 	Endpoint types.String `tfsdk:"endpoint"`
+	Username types.String `tfsdk:"username"`
+	Password types.String `tfsdk:"password"`
 }
 
-func (p *ScaffoldingProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "scaffolding"
+func (p *GraviteeIOAMProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "graviteeio_am"
 	resp.Version = p.version
 }
 
-func (p *ScaffoldingProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+func (p *GraviteeIOAMProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
-				MarkdownDescription: "Example provider attribute",
-				Optional:            true,
+				MarkdownDescription: "GraviteeIO AM endpoint",
+				Optional:            false,
+			},
+			"username": schema.StringAttribute{
+				MarkdownDescription: "GraviteeIO AM username",
+				Optional:            false,
+			},
+			"password": schema.StringAttribute{
+				MarkdownDescription: "GraviteeIO AM password",
+				Optional:            false,
 			},
 		},
 	}
 }
 
-func (p *ScaffoldingProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var data ScaffoldingProviderModel
+func (p *GraviteeIOAMProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	var data GraviteeIOAMProvider
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -64,21 +74,21 @@ func (p *ScaffoldingProvider) Configure(ctx context.Context, req provider.Config
 	resp.ResourceData = client
 }
 
-func (p *ScaffoldingProvider) Resources(ctx context.Context) []func() resource.Resource {
+func (p *GraviteeIOAMProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		NewExampleResource,
+		NewDomainResource,
 	}
 }
 
-func (p *ScaffoldingProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+func (p *GraviteeIOAMProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		NewExampleDataSource,
+		NewDomainDataSource,
 	}
 }
 
 func New(version string) func() provider.Provider {
 	return func() provider.Provider {
-		return &ScaffoldingProvider{
+		return &GraviteeIOAMProvider{
 			version: version,
 		}
 	}

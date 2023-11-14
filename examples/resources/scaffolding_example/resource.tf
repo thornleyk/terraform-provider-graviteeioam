@@ -1,3 +1,3 @@
-resource "scaffolding_example" "example" {
+resource "graviteeio_am_domain" "example" {
   configurable_attribute = "some-value"
 }
