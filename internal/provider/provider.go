@@ -42,15 +42,15 @@ func (p *GraviteeIOAMProvider) Schema(ctx context.Context, req provider.SchemaRe
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
 				MarkdownDescription: "GraviteeIO AM endpoint",
-				Optional:            false,
+				Optional:            true,
 			},
 			"username": schema.StringAttribute{
 				MarkdownDescription: "GraviteeIO AM username",
-				Optional:            false,
+				Optional:            true,
 			},
 			"password": schema.StringAttribute{
 				MarkdownDescription: "GraviteeIO AM password",
-				Optional:            false,
+				Optional:            true,
 			},
 		},
 	}
