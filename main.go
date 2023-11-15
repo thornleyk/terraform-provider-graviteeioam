@@ -39,7 +39,7 @@ func main() {
 
 	opts := providerserver.ServeOpts{
 		// TODO: Update this string with the published name of your provider.
-		Address: "registry.terraform.io/hashicorp/graviteeio-am",
+		Address: "registry.terraform.io/thornleyk/graviteeio-am",
 		Debug:   debug,
 	}
 
