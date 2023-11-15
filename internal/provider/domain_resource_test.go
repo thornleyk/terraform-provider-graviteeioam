@@ -17,7 +17,7 @@ func TestAccDomainResource(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create and Read testing
 			{
-				Config: testAccDomainResourceConfig("one"),
+				Config: providerConfig + testAccDomainResourceConfig("one"),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("graviteeio-am_domain.test", "configurable_attribute", "one"),
 					resource.TestCheckResourceAttr("graviteeio-am_domain.test", "defaulted", "example value when not configured"),
@@ -37,7 +37,7 @@ func TestAccDomainResource(t *testing.T) {
 			},
 			// Update and Read testing
 			{
-				Config: testAccDomainResourceConfig("two"),
+				Config: providerConfig + testAccDomainResourceConfig("two"),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("graviteeio-am_domain.test", "configurable_attribute", "two"),
 				),

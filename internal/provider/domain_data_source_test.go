@@ -16,7 +16,7 @@ func TestAccDomainDataSource(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Read testing
 			{
-				Config: testAccDomainDataSourceConfig,
+				Config: providerConfig + testAccDomainDataSourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("data.graviteeio-am_domain.test", "id", "example-id"),
 				),
