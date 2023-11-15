@@ -19,14 +19,14 @@ func TestAccDomainResource(t *testing.T) {
 			{
 				Config: testAccDomainResourceConfig("one"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("graviteeioam_domain.test", "configurable_attribute", "one"),
-					resource.TestCheckResourceAttr("graviteeioam_domain.test", "defaulted", "example value when not configured"),
-					resource.TestCheckResourceAttr("graviteeioam_domain.test", "id", "example-id"),
+					resource.TestCheckResourceAttr("graviteeio-am_domain.test", "configurable_attribute", "one"),
+					resource.TestCheckResourceAttr("graviteeio-am_domain.test", "defaulted", "example value when not configured"),
+					resource.TestCheckResourceAttr("graviteeio-am_domain.test", "id", "example-id"),
 				),
 			},
 			// ImportState testing
 			{
-				ResourceName:      "graviteeioam_domain.test",
+				ResourceName:      "graviteeio-am_domain.test",
 				ImportState:       true,
 				ImportStateVerify: true,
 				// This is not normally necessary, but is here because this
@@ -39,7 +39,7 @@ func TestAccDomainResource(t *testing.T) {
 			{
 				Config: testAccDomainResourceConfig("two"),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("graviteeioam_domain.test", "configurable_attribute", "two"),
+					resource.TestCheckResourceAttr("graviteeio-am_domain.test", "configurable_attribute", "two"),
 				),
 			},
 			// Delete testing automatically occurs in TestCase
@@ -49,7 +49,7 @@ func TestAccDomainResource(t *testing.T) {
 
 func testAccDomainResourceConfig(configurableAttribute string) string {
 	return fmt.Sprintf(`
-resource "graviteeioam_domain" "test" {
+resource "graviteeio-am_domain" "test" {
   configurable_attribute = %[1]q
 }
 `, configurableAttribute)
