@@ -10,6 +10,25 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 )
 
+const (
+	// providerConfig is a shared configuration to combine with the actual
+	// test configuration so the Inventory client is properly configured.
+	providerConfig = `
+	terraform {
+	 required_providers {
+	   graviteeio-am = {
+		 source = "thornleyk/graviteeio-am"
+	   }
+	 }
+   	}
+   
+    # Configure the connection details for the Inventory service
+    provider "graviteeio-am" {
+
+    }
+`
+)
+
 // testAccProtoV6ProviderFactories are used to instantiate a provider during
 // acceptance testing. The factory function will be invoked for every Terraform
 // CLI command executed to create a provider server to which the CLI can
