@@ -12,20 +12,20 @@ import (
 
 const (
 	// providerConfig is a shared configuration to combine with the actual
-	// test configuration so the Inventory client is properly configured.
+	// test configuration so the GraviteeIO client is properly configured.
 	providerConfig = `
-	terraform {
-	 required_providers {
-	   graviteeio-am = {
-		 source = "thornleyk/graviteeio-am"
-	   }
-	 }
-   	}
+terraform {
+	required_providers {
+		graviteeio-am = {
+			source = "thornleyk/graviteeio-am"
+		}
+	}
+}
    
-    # Configure the connection details for the Inventory service
-    provider "graviteeio-am" {
+# Configure the connection details for the Inventory service
+provider "graviteeio-am" {
 
-    }
+}
 `
 )
 
