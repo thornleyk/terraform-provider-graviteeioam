@@ -25,7 +25,9 @@ terraform {
    
 # Configure the connection details for the Inventory service
 provider "graviteeioam" {
-
+	username = "admin"
+	password = "admin"
+	endpoint = "http://localhost:8083/management"
 }
 `
 )

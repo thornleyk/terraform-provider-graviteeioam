@@ -78,6 +78,5 @@ jobs:
       - env:
           TF_ACC: "1"
           TF_LOG: "TRACE"
-          TF_ACC_PROVIDER_NAMESPACE: "thornleyk"
         run: go test -v -cover ./internal/provider/
         timeout-minutes: 10
