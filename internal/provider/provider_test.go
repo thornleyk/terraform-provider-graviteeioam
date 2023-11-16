@@ -17,7 +17,8 @@ const (
 terraform {
 	required_providers {
 		graviteeioam = {
-			source  = "hashicorp/graviteeioam"
+			source  = "thornleyk/graviteeioam"
+			version = "dev"
 		}
 	}
 }
