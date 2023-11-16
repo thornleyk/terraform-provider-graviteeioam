@@ -16,14 +16,14 @@ const (
 	providerConfig = `
 terraform {
 	required_providers {
-		graviteeio-am = {
-			source = "thornleyk/graviteeio-am"
+		graviteeioam = {
+			source = "thornleyk/graviteeioam"
 		}
 	}
 }
    
 # Configure the connection details for the Inventory service
-provider "graviteeio-am" {
+provider "graviteeioam" {
 
 }
 `
@@ -34,7 +34,7 @@ provider "graviteeio-am" {
 // CLI command executed to create a provider server to which the CLI can
 // reattach.
 var testAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServer, error){
-	"graviteeio-am": providerserver.NewProtocol6WithError(New("test")()),
+	"graviteeioam": providerserver.NewProtocol6WithError(New("test")()),
 }
 
 func testAccPreCheck(t *testing.T) {
