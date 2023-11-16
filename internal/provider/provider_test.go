@@ -18,7 +18,6 @@ terraform {
 	required_providers {
 		graviteeioam = {
 			source  = "thornleyk/graviteeioam"
-			version = "1.0.0"
 		}
 	}
 }
