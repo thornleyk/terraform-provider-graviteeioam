@@ -57,7 +57,7 @@ func (p *GraviteeIOAMProvider) Schema(ctx context.Context, req provider.SchemaRe
 }
 
 func (p *GraviteeIOAMProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var data GraviteeIOAMProvider
+	var data GraviteeIOAMProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
