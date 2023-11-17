@@ -79,5 +79,8 @@ jobs:
           TF_ACC: "1"
           TF_LOG: "TRACE"
           TF_ACC_PROVIDER_NAMESPACE: "thornleyk"
+          GRAVITEEIOAM_PASSWORD: ${{ secrets.GRAVITEEIOAM_PASSWORD }}
+          GRAVITEEIOAM_ENDPOINT: ${{ secrets.GRAVITEEIOAM_ENDPOINT }}
+          GRAVITEEIOAM_USERNAME: ${{ secrets.GRAVITEEIOAM_USERNAME }}
         run: go test -v -cover ./internal/provider/
         timeout-minutes: 10
