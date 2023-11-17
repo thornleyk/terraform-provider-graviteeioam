@@ -6,7 +6,8 @@ package provider
 import (
 	"context"
 	"fmt"
-	"net/http"
+
+	"github.com/thornleyk/graviteeioam-service/client"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -28,7 +29,7 @@ func NewDomainResource() resource.Resource {
 
 // DomainResource defines the resource implementation.
 type DomainResource struct {
-	client *http.Client
+	client *client.Client
 }
 
 // DomainResourceModel describes the resource data model.
@@ -75,7 +76,7 @@ func (r *DomainResource) Configure(ctx context.Context, req resource.ConfigureRe
 		return
 	}
 
-	client, ok := req.ProviderData.(*http.Client)
+	client, ok := req.ProviderData.(*client.Client)
 
 	if !ok {
 		resp.Diagnostics.AddError(

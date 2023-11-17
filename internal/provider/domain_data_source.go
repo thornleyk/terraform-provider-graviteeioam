@@ -5,8 +5,10 @@ package provider
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
-	"net/http"
+
+	"github.com/thornleyk/graviteeioam-service/client"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -23,7 +25,7 @@ func NewDomainDataSource() datasource.DataSource {
 
 // ExampleDataSource defines the data source implementation.
 type DomainDataSource struct {
-	client *http.Client
+	client *client.Client
 }
 
 // DomainDataSourceModel describes the data source data model.
@@ -60,12 +62,12 @@ func (d *DomainDataSource) Configure(ctx context.Context, req datasource.Configu
 		return
 	}
 
-	client, ok := req.ProviderData.(*http.Client)
+	client, ok := req.ProviderData.(*client.Client)
 
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			fmt.Sprintf("Expected *http.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *client.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 
 		return
@@ -84,17 +86,35 @@ func (d *DomainDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		return
 	}
 
-	// If applicable, this is a great opportunity to initialize any necessary
-	// provider client data and make a call using it.
-	// httpResp, err := d.client.Do(httpReq)
-	// if err != nil {
-	//     resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read example, got error: %s", err))
-	//     return
-	// }
+	domainResponse, err := d.client.GetOrganizationSettings(ctx, "DEFAULT")
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Unable to Read Item",
+			err.Error(),
+		)
+		return
+	}
+
+	var domain client.Domain
+	if domainResponse.StatusCode != 200 {
+		resp.Diagnostics.AddError(
+			"Unexpected HTTP error code received for Domain",
+			domainResponse.Status,
+		)
+		return
+	}
+
+	if err := json.NewDecoder(domainResponse.Body).Decode(&domain); err != nil {
+		resp.Diagnostics.AddError(
+			"Invalid format received for Item",
+			err.Error(),
+		)
+		return
+	}
 
 	// For the purposes of this example code, hardcoding a response value to
 	// save into the Terraform state.
-	data.Id = types.StringValue("example-id")
+	data.Id = types.StringValue(*domain.Id)
 
 	// Write logs using the tflog package
 	// Documentation: https://terraform.io/plugin/log

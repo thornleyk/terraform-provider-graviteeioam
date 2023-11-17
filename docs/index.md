@@ -24,5 +24,5 @@ provider "graviteeioam" {
 ### Optional
 
 - `endpoint` (String) GraviteeIO AM endpoint
-- `password` (String) GraviteeIO AM password
+- `password` (String, Sensitive) GraviteeIO AM password
 - `username` (String) GraviteeIO AM username
