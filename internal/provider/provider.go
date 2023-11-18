@@ -1,6 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-// SPDX-License-Identifier: MPL-2.0
-
 package provider
 
 import (
@@ -64,7 +61,7 @@ func (p *GraviteeIOAMProvider) Schema(ctx context.Context, req provider.SchemaRe
 }
 
 func (p *GraviteeIOAMProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	tflog.Info(ctx, "Configuring Inventory client")
+	tflog.Info(ctx, "Configuring GraviteeIOAM client")
 
 	var config GraviteeIOAMProviderModel
 	diags := req.Config.Get(ctx, &config)
@@ -220,7 +217,7 @@ func (p *GraviteeIOAMProvider) Configure(ctx context.Context, req provider.Confi
 
 	resp.DataSourceData = api
 	resp.ResourceData = api
-	tflog.Info(ctx, "Configured Inventory client", map[string]any{"success": true})
+	tflog.Info(ctx, "Configured GraviteeIOAM client", map[string]any{"success": true})
 
 }
 

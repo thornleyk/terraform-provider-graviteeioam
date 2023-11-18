@@ -6,24 +6,24 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccDomainDataSource(t *testing.T) {
+func TestAccEnvironmentDataSource(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			// Read testing
 			{
-				Config: providerConfig + testAccDomainDataSourceConfig,
+				Config: providerConfig + testAccEnvironmentDataSourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.graviteeioam_domain.test", "id", "DEFAULT"),
+					resource.TestCheckResourceAttr("data.graviteeioam_environment.test", "id", "DEFAULT"),
 				),
 			},
 		},
 	})
 }
 
-const testAccDomainDataSourceConfig = `
-data "graviteeioam_domain" "test" {
-  domain_id = "DEFAULT:DEFAULT:test-domain"
+const testAccEnvironmentDataSourceConfig = `
+data "graviteeioam_environment" "test" {
+  environment_id = "DEFAULT:DEFAULT"
 }
 `

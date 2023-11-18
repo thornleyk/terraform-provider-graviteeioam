@@ -1,6 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-// SPDX-License-Identifier: MPL-2.0
-
 package provider
 
 import (
@@ -30,9 +27,11 @@ type OrganizationDataSource struct {
 
 // OrganizationDataSourceModel describes the data source data model.
 type OrganizationDataSourceModel struct {
-	Id             types.String `tfsdk:"id"`
-	OrganizationId types.String `tfsdk:"organization_id"`
-	Name           types.String `tfsdk:"name"`
+	Id             types.String   `tfsdk:"id"`
+	OrganizationId types.String   `tfsdk:"organization_id"`
+	Name           types.String   `tfsdk:"name"`
+	Identities     []types.String `tfsdk:"identities"`
+	HrId           types.String   `tfsdk:"hrid"`
 }
 
 func (d *OrganizationDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -45,16 +44,25 @@ func (d *OrganizationDataSource) Schema(ctx context.Context, req datasource.Sche
 		MarkdownDescription: "Organization data source",
 
 		Attributes: map[string]schema.Attribute{
-			"organization_id": schema.StringAttribute{
-				MarkdownDescription: "Organization id attribute",
-				Required:            true,
-			},
 			"id": schema.StringAttribute{
 				MarkdownDescription: "TF identifier",
 				Computed:            true,
 			},
+			"organization_id": schema.StringAttribute{
+				MarkdownDescription: "Organization id",
+				Required:            true,
+			},
 			"name": schema.StringAttribute{
-				MarkdownDescription: "name identifier",
+				MarkdownDescription: "Organization name",
+				Computed:            true,
+			},
+			"identities": schema.ListAttribute{
+				MarkdownDescription: "Organization identities",
+				ElementType:         types.StringType,
+				Computed:            true,
+			},
+			"hrid": schema.StringAttribute{
+				MarkdownDescription: "Organization Hrid",
 				Computed:            true,
 			},
 		},
@@ -120,7 +128,10 @@ func (d *OrganizationDataSource) Read(ctx context.Context, req datasource.ReadRe
 	data.OrganizationId = types.StringValue(*domain.Id)
 	data.Id = types.StringValue(*domain.Id)
 	data.Name = types.StringValue(*domain.Name)
-
+	//data.HrId = types.StringValue(*domain.Hrid) //FIXME: this is returning from Gravitee as a [] hrid
+	for _, identity := range *domain.Identities {
+		data.Identities = append(data.Identities, types.StringValue(identity))
+	}
 	tflog.Trace(ctx, "read a data source")
 
 	// Save data into Terraform state

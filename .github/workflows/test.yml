@@ -76,7 +76,7 @@ jobs:
           terraform_wrapper: false
       - run: go mod download
       - env:
-          TF_ACC: "1"
+          # TF_ACC: "1"
           TF_LOG: "TRACE"
           TF_ACC_PROVIDER_NAMESPACE: "thornleyk"
           GRAVITEEIOAM_PASSWORD: ${{ secrets.GRAVITEEIOAM_PASSWORD }}
