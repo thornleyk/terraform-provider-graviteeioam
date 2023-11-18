@@ -15,7 +15,7 @@ func TestAccEnvironmentDataSource(t *testing.T) {
 			{
 				Config: providerConfig + testAccEnvironmentDataSourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.graviteeioam_environment.test", "id", "DEFAULT"),
+					resource.TestCheckResourceAttr("data.graviteeioam_environment.test", "id", "DEFAULT:DEFAULT"),
 				),
 			},
 		},

@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/thornleyk/graviteeioam-service/client"
+	"github.com/thornleyk/terraform-provider-graviteeioam/internal/model"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -23,15 +24,6 @@ func NewOrganizationDataSource() datasource.DataSource {
 // ExampleDataSource defines the data source implementation.
 type OrganizationDataSource struct {
 	client *client.Client
-}
-
-// OrganizationDataSourceModel describes the data source data model.
-type OrganizationDataSourceModel struct {
-	Id             types.String   `tfsdk:"id"`
-	OrganizationId types.String   `tfsdk:"organization_id"`
-	Name           types.String   `tfsdk:"name"`
-	Identities     []types.String `tfsdk:"identities"`
-	HrId           types.String   `tfsdk:"hrid"`
 }
 
 func (d *OrganizationDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -90,7 +82,7 @@ func (d *OrganizationDataSource) Configure(ctx context.Context, req datasource.C
 }
 
 func (d *OrganizationDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data OrganizationDataSourceModel
+	var data model.OrganizationDataSourceModel
 
 	// Read Terraform configuration data into the model
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)

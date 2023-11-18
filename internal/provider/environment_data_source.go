@@ -41,13 +41,19 @@ func (d *EnvironmentDataSource) Schema(ctx context.Context, req datasource.Schem
 				MarkdownDescription: "TF identifier",
 				Computed:            true,
 			},
-			"organization_id": schema.StringAttribute{
-				MarkdownDescription: "Organiation id",
-				Required:            true,
-			},
 			"environment_id": schema.StringAttribute{
 				MarkdownDescription: "Environment id",
 				Required:            true,
+			},
+			"domains": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"hrid": schema.StringAttribute{
+							Computed: true,
+						},
+					},
+				},
+				Computed: true,
 			},
 		},
 	}
@@ -75,7 +81,7 @@ func (d *EnvironmentDataSource) Configure(ctx context.Context, req datasource.Co
 
 func ParseEnvironmentID(id string) (string, string, error) {
 	parts := strings.SplitN(id, ":", 2)
-	if len(parts) != 3 || parts[0] == "" || parts[1] == "" || parts[2] == "" {
+	if len(parts) != 2 || parts[0] == "" || parts[1] == "" {
 		return "", "", fmt.Errorf("unexpected format of ID (%s), expected organizationId:environmentId", id)
 	}
 	return parts[0], parts[1], nil
@@ -91,9 +97,18 @@ func (d *EnvironmentDataSource) Read(ctx context.Context, req datasource.ReadReq
 		return
 	}
 
+	organizationId, environmentId, idErr := ParseEnvironmentID(data.EnvironmentId.ValueString())
+	if idErr != nil {
+		resp.Diagnostics.AddError(
+			"Error parsing id for Environment Id",
+			data.EnvironmentId.ValueString(),
+		)
+		return
+	}
+
 	var listParams = client.ListDomainsParams{}
 
-	domainsResponse, err := d.client.ListDomains(ctx, data.OrganizationId.ValueString(), data.EnvironmentId.ValueString(), &listParams)
+	domainsResponse, err := d.client.ListDomains(ctx, organizationId, environmentId, &listParams)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Item",
@@ -110,21 +125,34 @@ func (d *EnvironmentDataSource) Read(ctx context.Context, req datasource.ReadReq
 		return
 	}
 
-	var domains []client.Domain
-	if err := json.NewDecoder(domainsResponse.Body).Decode(&domains); err != nil {
+	var listWrapper model.GraviteeAMListWrapper
+	if listWrapperErr := json.NewDecoder(domainsResponse.Body).Decode(&listWrapper); err != nil {
 		resp.Diagnostics.AddError(
-			"Invalid format received for Item",
-			err.Error(),
+			"Invalid format received for GraviteeAMListWrapper",
+			listWrapperErr.Error(),
 		)
 		return
 	}
 
-	data.Id = types.StringValue(fmt.Sprintf("%s:%s", data.OrganizationId, data.EnvironmentId))
+	dataJSON, err := json.Marshal(listWrapper.Data)
+	if err != nil {
+		fmt.Println("Error converting Data to JSON string:", err)
+		return
+	}
+
+	fmt.Println("Data as JSON string:", string(dataJSON))
+
+	var domains []client.Domain
+	if domainsErr := json.Unmarshal(dataJSON, &domains); err != nil {
+		fmt.Println("Error re-marshaling JSON string to concrete type:", domainsErr)
+		return
+	}
+
+	data.Id = data.EnvironmentId
 
 	for _, domain := range domains {
-		var domainData = model.DomainDataSourceModel{
-			Id:   types.StringValue(*domain.Id),
-			Name: types.StringValue(*domain.Name),
+		var domainData = model.DomainLightDataSourceModel{
+			Hrid: types.StringValue(*domain.Hrid),
 		}
 		data.Domains = append(data.Domains, domainData)
 	}

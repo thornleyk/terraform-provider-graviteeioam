@@ -59,6 +59,10 @@ type DomainDataSourceModel struct {
 	DomainLoginSettings *DomainLoginSettings `tfsdk:"login_settings"`
 }
 
+type DomainLightDataSourceModel struct {
+	Hrid types.String `tfsdk:"hrid"`
+}
+
 func MapDomainDataSource(source *client.Domain, target DomainDataSourceModel) (DomainDataSourceModel, error) {
 	target.Id = target.DomainId
 	target.Hrid = types.StringValue(*source.Hrid)

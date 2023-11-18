@@ -231,6 +231,7 @@ func (p *GraviteeIOAMProvider) DataSources(ctx context.Context) []func() datasou
 	return []func() datasource.DataSource{
 		NewDomainDataSource,
 		NewOrganizationDataSource,
+		NewEnvironmentDataSource,
 	}
 }
 
