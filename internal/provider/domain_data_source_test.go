@@ -15,7 +15,7 @@ func TestAccDomainDataSource(t *testing.T) {
 			{
 				Config: providerConfig + testAccDomainDataSourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.graviteeioam_domain.test", "id", "DEFAULT"),
+					resource.TestCheckResourceAttr("data.graviteeioam_domain.test", "id", "DEFAULT:DEFAULT:test-domain"),
 				),
 			},
 		},

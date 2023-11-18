@@ -246,7 +246,7 @@ func (d *DomainDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		)
 		return
 	}
-	mapErr := model.MapDomainDataSource(&domain, data)
+	data, mapErr := model.MapDomainDataSource(&domain, data)
 	if mapErr != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Item",

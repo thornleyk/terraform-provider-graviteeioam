@@ -33,19 +33,33 @@ type DomainOIDC struct {
 	CIBASettings               types.String `tfsdk:"ciba_settings"`
 }
 
-type DomainDataSourceModel struct {
-	Id          types.String `tfsdk:"id"`
-	DomainId    types.String `tfsdk:"domain_id"`
-	Hrid        types.String `tfsdk:"hrid"`
-	Name        types.String `tfsdk:"name"`
-	Description types.String `tfsdk:"description"`
-	Enabled     types.Bool   `tfsdk:"enabled"`
-	Master      types.Bool   `tfsdk:"master"`
-	VHostMode   types.Bool   `tfsdk:"vhost_mode"`
-	DomainOIDC  *DomainOIDC  `tfsdk:"domain_oidc"`
+type DomainLoginSettings struct {
+	Inherited                          types.String `tfsdk:"inherited"`
+	ForgotPasswordEnabled              types.String `tfsdk:"forgot_password_enabled"`
+	RegisterEnabled                    types.Bool   `tfsdk:"register_enabled"`
+	RememberMeEnabled                  types.Bool   `tfsdk:"remember_me_enabled"`
+	PasswordlessEnabled                types.String `tfsdk:"passwordless_enabled"`
+	PasswordlessRememberDeviceEnabled  types.String `tfsdk:"passwordless_remember_device_enabled"`
+	PasswordlessEnforcePasswordEnabled types.String `tfsdk:"passwordless_enforce_password_enabled"`
+	PasswordlessDeviceNamingEnabled    types.String `tfsdk:"passwordless_device_naming_enabled"`
+	HideForm                           types.String `tfsdk:"hide_form"`
+	IdentifierFirstEnabled             types.String `tfsdk:"identifier_first_enabled"`
 }
 
-func MapDomainDataSource(source *client.Domain, target DomainDataSourceModel) error {
+type DomainDataSourceModel struct {
+	Id                  types.String         `tfsdk:"id"`
+	DomainId            types.String         `tfsdk:"domain_id"`
+	Hrid                types.String         `tfsdk:"hrid"`
+	Name                types.String         `tfsdk:"name"`
+	Description         types.String         `tfsdk:"description"`
+	Enabled             types.Bool           `tfsdk:"enabled"`
+	Master              types.Bool           `tfsdk:"master"`
+	VHostMode           types.Bool           `tfsdk:"vhost_mode"`
+	DomainOIDC          *DomainOIDC          `tfsdk:"oidc"`
+	DomainLoginSettings *DomainLoginSettings `tfsdk:"login_settings"`
+}
+
+func MapDomainDataSource(source *client.Domain, target DomainDataSourceModel) (DomainDataSourceModel, error) {
 	target.Id = target.DomainId
 	target.Hrid = types.StringValue(*source.Hrid)
 	target.Name = types.StringValue(*source.Name)
@@ -53,5 +67,5 @@ func MapDomainDataSource(source *client.Domain, target DomainDataSourceModel) er
 	target.Enabled = types.BoolValue(*source.Enabled)
 	target.Master = types.BoolValue(*source.Master)
 	target.VHostMode = types.BoolValue(*source.VhostMode)
-	return nil
+	return target, nil
 }
