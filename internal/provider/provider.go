@@ -166,7 +166,7 @@ func (p *GraviteeIOAMProvider) Configure(ctx context.Context, req provider.Confi
 		return
 	}
 
-	authToken, authTokenErr := authApi.AuthToken(ctx)
+	authToken, authTokenErr := authApi.AuthTokenExchange(ctx)
 
 	//authResp, _ := io.ReadAll(authToken.Body)
 

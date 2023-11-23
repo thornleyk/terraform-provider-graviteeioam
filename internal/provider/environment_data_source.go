@@ -106,9 +106,9 @@ func (d *EnvironmentDataSource) Read(ctx context.Context, req datasource.ReadReq
 		return
 	}
 
-	var listParams = client.ListDomainsParams{}
+	var listParams = client.EnvironmentListDomainsParams{}
 
-	domainsResponse, err := d.client.ListDomains(ctx, organizationId, environmentId, &listParams)
+	domainsResponse, err := d.client.EnvironmentListDomains(ctx, organizationId, environmentId, &listParams)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Item",
@@ -125,7 +125,7 @@ func (d *EnvironmentDataSource) Read(ctx context.Context, req datasource.ReadReq
 		return
 	}
 
-	var listWrapper model.GraviteeAMListWrapper
+	var listWrapper client.Page
 	if listWrapperErr := json.NewDecoder(domainsResponse.Body).Decode(&listWrapper); err != nil {
 		resp.Diagnostics.AddError(
 			"Invalid format received for GraviteeAMListWrapper",

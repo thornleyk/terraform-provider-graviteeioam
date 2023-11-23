@@ -221,7 +221,7 @@ func (d *DomainDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		return
 	}
 
-	domainResponse, err := d.client.FindDomainByHrid(ctx, organizationId, environmentId, domainId)
+	domainResponse, err := d.client.DomainGetByHrid(ctx, organizationId, environmentId, domainId)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Item",

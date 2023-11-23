@@ -91,7 +91,7 @@ func (d *OrganizationDataSource) Read(ctx context.Context, req datasource.ReadRe
 		return
 	}
 
-	domainResponse, err := d.client.GetOrganizationSettings(ctx, data.OrganizationId.ValueString())
+	domainResponse, err := d.client.OrganizationGetPlatformSettings(ctx, data.OrganizationId.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Item",
