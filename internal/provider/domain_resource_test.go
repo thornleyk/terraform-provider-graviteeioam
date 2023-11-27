@@ -12,7 +12,6 @@ func TestAccDomainResource(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
-			// Create and Read testing
 			{
 				Config: providerConfig + testAccDomainResourceConfig("one"),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -21,25 +20,18 @@ func TestAccDomainResource(t *testing.T) {
 					resource.TestCheckResourceAttr("graviteeioam_domain.test", "id", "example-id"),
 				),
 			},
-			// ImportState testing
 			{
-				ResourceName:      "graviteeioam_domain.test",
-				ImportState:       true,
-				ImportStateVerify: true,
-				// This is not normally necessary, but is here because this
-				// example code does not have an actual upstream service.
-				// Once the Read method is able to refresh information from
-				// the upstream service, this can be removed.
+				ResourceName:            "graviteeioam_domain.test",
+				ImportState:             true,
+				ImportStateVerify:       true,
 				ImportStateVerifyIgnore: []string{"configurable_attribute", "defaulted"},
 			},
-			// Update and Read testing
 			{
 				Config: providerConfig + testAccDomainResourceConfig("two"),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("graviteeioam_domain.test", "configurable_attribute", "two"),
 				),
 			},
-			// Delete testing automatically occurs in TestCase
 		},
 	})
 }

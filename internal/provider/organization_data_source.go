@@ -6,22 +6,18 @@ import (
 	"fmt"
 
 	"github.com/thornleyk/graviteeioam-service/client"
-	"github.com/thornleyk/terraform-provider-graviteeioam/internal/model"
+	organizationModel "github.com/thornleyk/terraform-provider-graviteeioam/internal/model/organization"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-// Ensure provider defined types fully satisfy framework interfaces.
 var _ datasource.DataSource = &OrganizationDataSource{}
 
 func NewOrganizationDataSource() datasource.DataSource {
 	return &OrganizationDataSource{}
 }
 
-// ExampleDataSource defines the data source implementation.
 type OrganizationDataSource struct {
 	client *client.Client
 }
@@ -31,38 +27,10 @@ func (d *OrganizationDataSource) Metadata(ctx context.Context, req datasource.Me
 }
 
 func (d *OrganizationDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
-	resp.Schema = schema.Schema{
-		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "Organization data source",
-
-		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				MarkdownDescription: "TF identifier",
-				Computed:            true,
-			},
-			"organization_id": schema.StringAttribute{
-				MarkdownDescription: "Organization id",
-				Required:            true,
-			},
-			"name": schema.StringAttribute{
-				MarkdownDescription: "Organization name",
-				Computed:            true,
-			},
-			"identities": schema.ListAttribute{
-				MarkdownDescription: "Organization identities",
-				ElementType:         types.StringType,
-				Computed:            true,
-			},
-			"hrid": schema.StringAttribute{
-				MarkdownDescription: "Organization Hrid",
-				Computed:            true,
-			},
-		},
-	}
+	resp.Schema = *organizationModel.GetOrganizationDataSourceSchema()
 }
 
 func (d *OrganizationDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
-	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
 		return
 	}
@@ -82,50 +50,49 @@ func (d *OrganizationDataSource) Configure(ctx context.Context, req datasource.C
 }
 
 func (d *OrganizationDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data model.OrganizationDataSourceModel
+	var data organizationModel.OrganizationDataSourceModel
 
-	// Read Terraform configuration data into the model
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	domainResponse, err := d.client.OrganizationGetPlatformSettings(ctx, data.OrganizationId.ValueString())
+	httpRes, err := d.client.OrganizationGetPlatformSettings(ctx, data.OrganizationId.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read Item",
+			"Unable to read item",
 			err.Error(),
 		)
 		return
 	}
 
-	var domain client.Domain
-	if domainResponse.StatusCode != 200 {
+	var apiRes client.Organization
+	if httpRes.StatusCode != 200 {
 		resp.Diagnostics.AddError(
-			"Unexpected HTTP error code received for Organization",
-			domainResponse.Status,
+			"Unexpected HTTP error code received",
+			httpRes.Status,
 		)
 		return
 	}
 
-	if err := json.NewDecoder(domainResponse.Body).Decode(&domain); err != nil {
+	if err := json.NewDecoder(httpRes.Body).Decode(&apiRes); err != nil {
 		resp.Diagnostics.AddError(
-			"Invalid format received for Item",
+			"Invalid format received",
 			err.Error(),
 		)
 		return
 	}
 
-	data.OrganizationId = types.StringValue(*domain.Id)
-	data.Id = types.StringValue(*domain.Id)
-	data.Name = types.StringValue(*domain.Name)
-	//data.HrId = types.StringValue(*domain.Hrid) //FIXME: this is returning from Gravitee as a [] hrid
-	for _, identity := range *domain.Identities {
-		data.Identities = append(data.Identities, types.StringValue(identity))
+	data, mapErr := organizationModel.MapOrganizationDataSource(&apiRes, data)
+	if mapErr != nil {
+		resp.Diagnostics.AddError(
+			"Unable to read data source",
+			mapErr.Error(),
+		)
+		return
 	}
-	tflog.Trace(ctx, "read a data source")
+	tflog.Trace(ctx, "Read the data source")
 
-	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

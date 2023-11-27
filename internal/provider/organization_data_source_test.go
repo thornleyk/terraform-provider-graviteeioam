@@ -11,7 +11,6 @@ func TestAccOrganizationDataSource(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
-			// Read testing
 			{
 				Config: providerConfig + testAccOrganizationDataSourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(

@@ -574,10 +574,8 @@ github.com/thanhpk/randstr v1.0.4 h1:IN78qu/bR+My+gHCvMEXhR/i5oriVHcTB/BJJIRTsNo
 github.com/thanhpk/randstr v1.0.4/go.mod h1:M/H2P1eNLZzlDwAzpkkkUvoyNNMbzRGhESZuEQk3r0U=
 github.com/thlib/go-timezone-local v0.0.0-20210907160436-ef149e42d28e h1:BuzhfgfWQbX0dWzYzT1zsORLnHRv3bcRcsaUk0VmXA8=
 github.com/thlib/go-timezone-local v0.0.0-20210907160436-ef149e42d28e/go.mod h1:/Tnicc6m/lsJE0irFMA0LfIwTBo4QP7A8IfyIv4zZKI=
-github.com/thornleyk/graviteeioam-service v0.0.4 h1:8O5haTl4UNkBvEZDMJ1HegWiJLrHNthV58Wc3fCY23I=
-github.com/thornleyk/graviteeioam-service v0.0.4/go.mod h1:HUA2HMiC7sbldFqV94w/01WHjNNBxDJuBGgpUKA8bI8=
-github.com/thornleyk/graviteeioam-service v0.0.6 h1:vE97ne1ojU2+Y5t/rFZUkv6QTKsh+l702Ui5Rs+NYtA=
-github.com/thornleyk/graviteeioam-service v0.0.6/go.mod h1:HUA2HMiC7sbldFqV94w/01WHjNNBxDJuBGgpUKA8bI8=
+github.com/thornleyk/graviteeioam-service v0.0.8 h1:s/E+DSU0sdT6uZTaO2ehZ9IoPPilFLX6gOyBo3ZaNP4=
+github.com/thornleyk/graviteeioam-service v0.0.8/go.mod h1:HUA2HMiC7sbldFqV94w/01WHjNNBxDJuBGgpUKA8bI8=
 github.com/tidwall/pretty v1.0.0 h1:HsD+QiTn7sK6flMKIvNmpqz1qrpP3Ps6jOKIKMooyg4=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/twitchyliquid64/golang-asm v0.15.1 h1:SU5vSMR7hnwNxj24w34ZyCi/FmDZTkS4MhqMhdFk5YI=
