@@ -67,11 +67,11 @@ func (d *OrganizationIdentityProviderDataSource) Read(ctx context.Context, req d
 		return
 	}
 
-	organizationId, identityProviderId, idErr := ParseOrganizationIdentityProviderID(data.DomainId.ValueString())
+	organizationId, identityProviderId, idErr := ParseOrganizationIdentityProviderID(data.OrganizationId.ValueString())
 	if idErr != nil {
 		resp.Diagnostics.AddError(
 			"Error parsing id",
-			data.DomainId.String(),
+			data.OrganizationId.String(),
 		)
 		return
 	}

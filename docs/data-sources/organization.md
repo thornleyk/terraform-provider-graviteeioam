@@ -21,7 +21,7 @@ Organization data source
 
 ### Read-Only
 
-- `hrid` (String) Organization Hrid
+- `hrids` (List of String) Organization HrIds
 - `id` (String) TF identifier
 - `identities` (List of String) Organization identities
 - `name` (String) Organization name

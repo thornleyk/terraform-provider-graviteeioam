@@ -5,7 +5,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-type OrganizationResourceModel struct {
+type OrganizationIdentityResourceModel struct {
 	Id types.String `tfsdk:"id"`
 }
 

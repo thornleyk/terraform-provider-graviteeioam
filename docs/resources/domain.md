@@ -3,12 +3,12 @@
 page_title: "graviteeioam_domain Resource - terraform-provider-graviteeioam"
 subcategory: ""
 description: |-
-  Example resource
+  Domain resource
 ---
 
 # graviteeioam_domain (Resource)
 
-Example resource
+Domain resource
 
 
 
